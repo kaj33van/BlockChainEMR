@@ -6,7 +6,6 @@ The aim of this framework is to create a blockchain based Electronic Health Reco
 
 # Application Demo 
 
-[![Watch the video](https://imgur.com/a/Ggw3RJi)](https://youtu.be/PaMTSp-VOoo)
 
 
 
