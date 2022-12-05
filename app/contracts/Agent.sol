@@ -1,5 +1,8 @@
+//SPDK-License_Identifier:  CC-BY-SA-4.0
+//version of solidity complier
 pragma solidity ^0.5.1;
 
+//Create a contract name Agent
 contract Agent {
     
     struct patient {
