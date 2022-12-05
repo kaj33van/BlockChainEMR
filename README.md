@@ -4,6 +4,11 @@
 ## Introduction
 The aim of this framework is to create a blockchain based Electronic Health Record management application. This application is indented to demonstrate granular access controls, automated charging and medical record management using blockchain technology.
 
+Patient can perform the following - Login/register using Metamask, upload Patient records, pay Dr fees, provide and revoke access to own medical records and Access own Patients records  
+
+Doctor can perform the following - Login/register using Metamask, Access Patients records, provide diagnosis and charge Patients. 
+
+
 
 <!-- TABLE OF CONTENTS -->
 ## Application Demo
