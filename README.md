@@ -4,6 +4,12 @@
 ## Introduction
 The aim of this framework is to create a blockchain based Electronic Health Record management application. This application is indented to demonstrate granular access controls, automated charging and medical record management using blockchain technology.
 
+# Application Demo 
+
+[![Watch the video](https://imgur.com/a/Ggw3RJi)](https://youtu.be/PaMTSp-VOoo)
+
+
+
 <!-- TABLE OF CONTENTS -->
 
 
