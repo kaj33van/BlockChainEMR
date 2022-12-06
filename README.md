@@ -83,16 +83,17 @@ https://nodejs.org/en/download/
     ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "['true']"
     ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "['PUT', 'POST', 'GET']"
     ```
-   - if you're getting errors modify in IPFS settings 
-   Try getting the ipfs-go from the source (https://github.com/ipfs/kubo#install-go) if it is not found under
-   C:\Program Files\IPFS Desktop\resources\app.asar.unpacked\node_modules\go-ipfs\go-ipfs
-   Try running the commands on above path if path is not set in env_variables
-   replace the '' with """
-   try out like the one as below for all
+  - If you're getting errors modify the IPFS settings 
+  - Try getting the ipfs-go from the source (https://github.com/ipfs/kubo#install-go) if it is not found under
+      - C:\Program Files\IPFS Desktop\resources\app.asar.unpacked\node_modules\go-ipfs\go-ipfs
+  - Try running the commands on above path if path is not set in env_variables
+      - replace the '' with """
+  - Try out like the one as below for all
+   ```
    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "["""*"""]"
    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "["""true"""]"
    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST""", """GET"""]"
-   
+   ```
    Try running out:- 'ipfs daemon' and keep it running
    
 
