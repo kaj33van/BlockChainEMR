@@ -104,7 +104,7 @@ contract Agent {
             if(patientInfo[paddr].diagnosis[j] == _diagnosis)DiagnosisFound = true;
         }
     }
-
+    //Creating function to remove the elements from the array of list
     function remove_element_in_array(address[] storage Array, address addr) internal returns(uint)
     {
         bool check = false;
@@ -128,41 +128,51 @@ contract Agent {
             Array.length--;
         }
     }
-
+     /*
+    Using remove element in array function 
+    To remove patient from doctor list on successful diagnosis
+    To remove doctor from patient list on successful diagnosis
+    */
     function remove_patient(address paddr, address daddr) public {
         remove_element_in_array(doctorInfo[daddr].patientAccessList, paddr);
         remove_element_in_array(patientInfo[paddr].doctorAccessList, daddr);
     }
-    
+    //Get the list of doctors who have accessed patients information
     function get_accessed_doctorlist_for_patient(address addr) public view returns (address[] memory )
     { 
         address[] storage doctoraddr = patientInfo[addr].doctorAccessList;
         return doctoraddr;
     }
+    //Get the list of patients which have provided access to their information to the doctor
     function get_accessed_patientlist_for_doctor(address addr) public view returns (address[] memory )
     {
         return doctorInfo[addr].patientAccessList;
     }
 
-    
+    //Revoke access from the doctor on information on their (Patient) medical details
     function revoke_access(address daddr) public payable{
         remove_patient(msg.sender,daddr);
         msg.sender.transfer(2 ether);
+        //reducing the creditpool which keeps check on the transfers
         creditPool -= 2;
     }
-
+        
+    //List out the patients stored in the array of patientlist
     function get_patient_list() public view returns(address[] memory ){
         return patientList;
     }
-
+    
+    //List out the doctors available under the doctorlist
     function get_doctor_list() public view returns(address[] memory ){
         return doctorList;
     }
-
+    
+    //Get the publickey hash of the patients to access the record
     function get_hash(address paddr) public view returns(string memory ){
         return patientInfo[paddr].record;
     }
-
+    
+    //Generate the public key hash for accessing the patients record
     function set_hash(address paddr, string memory _hash) internal {
         patientInfo[paddr].record = _hash;
     }
