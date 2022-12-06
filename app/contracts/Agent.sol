@@ -55,34 +55,38 @@ contract Agent {
        }
     }
 
-
+    //Below function will fetch patient details that were stored before the agent
     function get_patient(address addr) view public returns (string memory , uint, uint[] memory , address, string memory ){
         // if(keccak256(patientInfo[addr].name) == keccak256(""))revert();
         return (patientInfo[addr].name, patientInfo[addr].age, patientInfo[addr].diagnosis, Empty[addr], patientInfo[addr].record);
     }
-
+    //Fetching details of the doctors that exists before the agent
     function get_doctor(address addr) view public returns (string memory , uint){
         // if(keccak256(doctorInfo[addr].name)==keccak256(""))revert();
         return (doctorInfo[addr].name, doctorInfo[addr].age);
     }
+    //Getting available doctor names such that patients can be diagnosed from them
     function get_patient_doctor_name(address paddr, address daddr) view public returns (string memory , string memory ){
         return (patientInfo[paddr].name,doctorInfo[daddr].name);
     }
-
+    //Below function will allow doctors to access the patients information
     function permit_access(address addr) payable public {
+        //It will cost them 2 ether as a fee
         require(msg.value == 2 ether);
 
         creditPool += 2;
-        
+        //Adding available doctors to patients list
         doctorInfo[addr].patientAccessList.push(msg.sender)-1;
+        //Patients that gave their information access to doctors will be added to the doctors list
         patientInfo[msg.sender].doctorAccessList.push(addr)-1;
         
     }
 
 
-    //must be called by doctor
+    //Only doctors can call this function
     function insurance_claim(address paddr, uint _diagnosis, string memory  _hash) public {
         bool patientFound = false;
+        //Transferring 2 ether back on successfull diagnosis
         for(uint i = 0;i<doctorInfo[msg.sender].patientAccessList.length;i++){
             if(doctorInfo[msg.sender].patientAccessList[i]==paddr){
                 msg.sender.transfer(2 ether);
@@ -98,7 +102,7 @@ contract Agent {
         }else {
             revert();
         }
-
+        // Checking on Diagnosis for the patients
         bool DiagnosisFound = false;
         for(uint j = 0; j < patientInfo[paddr].diagnosis.length;j++){
             if(patientInfo[paddr].diagnosis[j] == _diagnosis)DiagnosisFound = true;
