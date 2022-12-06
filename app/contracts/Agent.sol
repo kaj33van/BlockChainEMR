@@ -136,7 +136,9 @@ contract Agent {
     }
     //Creating function to remove the elements from the array of list
     function remove_element_in_array(address[] storage Array, address addr) internal returns(uint)
-    {
+    {   
+        //bool check to stop reEntry attack
+        //setting default bool check to false
         bool check = false;
         uint del_index = 0;
         for(uint i = 0; i<Array.length; i++){
@@ -152,10 +154,11 @@ contract Agent {
             }
             else {
                 Array[del_index] = Array[Array.length - 1];
+                //delete elements from array
                 delete Array[Array.length - 1];
 
             }
-            Array.length--;
+            Array.length--; //Checking on length once elements are removed
         }
     }
      /*
