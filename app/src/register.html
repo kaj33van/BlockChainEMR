@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  <!--Every HTML documents starts with this standard protocol-->
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,6 +14,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <style>
+      /* Easy way to determine classes are to inspect the element in the browser and note it down  */
       .panel-heading {
         margin-bottom: 30px;
       }
@@ -52,6 +54,7 @@
 
   <body>
     <!-- Navigation -->
+    <!-- Using Boostrap pre-defined or built-in classes-->
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -67,6 +70,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+          <!-- Every page has a navbar, panels and containers, so code remains same for those -->
           <a class="navbar-brand" href="#">GROUP-5 FINAL PROJECT</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -84,7 +88,7 @@
       </div>
       <!-- /.container -->
     </nav>
-
+    <!-- Creating a registration form, so, setting up containers, and panels within them -->
     <div class="container">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -107,8 +111,9 @@
               <strong>Info!</strong> User already registered. Please check your
               details.
             </div>
+            <!-- Making it required as they are essential details to register-->
           </div>
-
+          <!-- Code for the elements inside the form -->
           <form
             name="registerForm"
             class="form-horizontal"
@@ -141,11 +146,13 @@
                 />
               </div>
             </div>
+            <!--Distinguishing patients and doctors while registering-->
             <div class="form-group">
               <label for="designation" class="control-label col-sm-2"
                 >Identification:</label
               >
               <div class="col-sm-8">
+                 <!-- Creating dropdown menu with two options-->
                 <select class="form-control" id="designation" required>
                   <option selected disabled>-- Please Select --</option>
                   <option value="0">Patient</option>
@@ -154,6 +161,7 @@
               </div>
             </div>
           </form>
+          <!--Calling addAgent method when we click on the button: Register-->
           <div class="text-center">
             <button class="btn btn-info btn-lg" onclick="addAgent()">
               Register
@@ -179,12 +187,13 @@
     <script>
       function addAgent() {
         var ipfs = window.IpfsApi("localhost", "5001");
+        // We are using Ganache, and from agent contract, we are fetching through this function
 
         const Buffer = window.IpfsApi().Buffer;
-
+        // Takes input field values
         name = $("#name").val();
         age = $("#age").val();
-
+        
         designation = $("#designation").val();
         designation = parseInt(designation);
 
@@ -197,7 +206,8 @@
         var PatientList = 0;
         var DoctorList = 0;
         var InsurerList = 0;
-
+        //Every time we perform action on, it will cost some gas
+        //Matching records as well; For Patient, Doctor and INSURER
         contractInstance.get_patient_list(
           { gas: 1000000 },
           function (error, result) {
@@ -221,7 +231,7 @@
             else console.error(error);
           }
         );
-
+        // Giving warning if it doesn't match
         if (validPublicKey == false) {
           $(".alert-warning").show();
         } else {
@@ -251,6 +261,7 @@
               var reportTitle = `Name: ${name} Public Key: ${publicKey}`;
               console.log(reportTitle); 
               var buffer = new Buffer(reportTitle);
+              //As Ganache has our addresses as we have imported account to metamask from the private key
 
               ipfs.files.add(buffer, (error, result) => {
                 if (error) {
@@ -275,7 +286,7 @@
                     }
                   );
                 }
-              });
+              }); //Adding to the list of records
             } else {
               contractInstance.add_agent(
                 name,
