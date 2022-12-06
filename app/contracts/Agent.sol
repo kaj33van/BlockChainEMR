@@ -46,6 +46,8 @@ contract Agent {
     mapping (address => address) Empty;
     // To store patients medical records in string under address
     mapping (address => string) patientRecords;
+    //Creating Event for every transaction  
+    event TransferFees(address indexed sender, uint amount);
     
     /* 
     Adding Agent
@@ -55,6 +57,8 @@ contract Agent {
     */
     // Function for adding agents 
     function add_agent(string memory _name, uint _age, uint _designation, string memory _hash) public returns(string memory){
+        //Creating Event to keep check on agent creation
+        event Addagent(address indexed creator, string memory name);
         address addr = msg.sender;
         // O designation adds patient
         if(_designation == 0){
@@ -65,7 +69,9 @@ contract Agent {
             p.record = _hash;
             patientInfo[msg.sender] = p;
             patientList.push(addr)-1;
-            return _name;
+            //Triggering Event on Patient creation
+            emit Addagent(addr,_name);
+            return _name;            
         }
         // 1 designation adds doctor
        else if (_designation == 1){
@@ -73,6 +79,8 @@ contract Agent {
             doctorInfo[addr].name = _name;
             doctorInfo[addr].age = _age;
             doctorList.push(addr)-1;
+            //Triggering Event on Doctor creation
+            emit Addagent(addr,_name);
             return _name;
        }
        //revert the function if designation is not from selected
@@ -101,6 +109,8 @@ contract Agent {
         require(msg.value == 2 ether);
 
         creditPool += 2;
+        //Triggering event to record the transfer fees
+        emit TransferFees(msg.sender,msg.value);
         //Adding available doctors to patients list
         doctorInfo[addr].patientAccessList.push(msg.sender)-1;
         //Patients that gave their information access to doctors will be added to the doctors list
@@ -117,6 +127,8 @@ contract Agent {
             if(doctorInfo[msg.sender].patientAccessList[i]==paddr){
                 msg.sender.transfer(2 ether);
                 creditPool -= 2;
+                //Triggering event to record the transfer fees
+                emit TransferFees(msg.sender,msg.value);
                 patientFound = true;
                 
             }
@@ -188,6 +200,8 @@ contract Agent {
         msg.sender.transfer(2 ether);
         //reducing the creditpool which keeps check on the transfers
         creditPool -= 2;
+        //Triggering event to record the transfer fees
+        emit TransferFees(msg.sender,msg.value);
     }
         
     //List out the patients stored in the array of patientlist
