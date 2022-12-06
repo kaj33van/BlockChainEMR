@@ -2,41 +2,64 @@
 //version of solidity complier
 pragma solidity ^0.5.1;
 
-//Create a contract name Agent
+//Contract Creation
 contract Agent {
-    
+// struct patient holds patient record
     struct patient {
+        //Used string type for name
         string name;
+        //integer for age
         uint age;
+        //address array to display multiple doctor list
         address[] doctorAccessList;
+        //integer array for diagnosis from various doctors
         uint[] diagnosis;
+        //string for the record related to disease
         string record;
     }
     
+
+    // struct doctor holds patient doctor
     struct doctor {
+        //String type to store doctor name
         string name;
+        //int type for doctor age
         uint age;
+        //address array to store multiple patients list
         address[] patientAccessList;
     }
 
+    //creditPool used for checking moving transactions
     uint creditPool;
 
+
+    //Address array type for storing multiple patients and doctors
     address[] public patientList;
     address[] public doctorList;
 
+
+    //Storing patient Information in patient struct type under address
     mapping (address => patient) patientInfo;
+    //Storing doctor information in doctor struct type under address
     mapping (address => doctor) doctorInfo;
+    //Transfer of public key address to patient to doctor and vice versa for Empty.
     mapping (address => address) Empty;
-    // might not be necessary
+    // To store patients medical records in string under address
     mapping (address => string) patientRecords;
     
-
-
+    /* 
+    Adding Agent
+    with designation 0 for patient
+    with designation 1 for doctor
+    returning name on creation
+    */
+    // Function for adding agents 
     function add_agent(string memory _name, uint _age, uint _designation, string memory _hash) public returns(string memory){
         address addr = msg.sender;
-        
+        // O designation adds patient
         if(_designation == 0){
             patient memory p;
+            //Information of the patient
             p.name = _name;
             p.age = _age;
             p.record = _hash;
@@ -44,12 +67,15 @@ contract Agent {
             patientList.push(addr)-1;
             return _name;
         }
+        // 1 designation adds doctor
        else if (_designation == 1){
+           //Information of the Doctor
             doctorInfo[addr].name = _name;
             doctorInfo[addr].age = _age;
             doctorList.push(addr)-1;
             return _name;
        }
+       //revert the function if designation is not from selected
        else{
            revert();
        }
