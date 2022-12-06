@@ -30,3 +30,14 @@ contract Migrations {
     upgraded.setCompleted(last_completed_migration);
   }
 }
+
+//Contract that performs destruction by contract owner 
+contract  contractdestruction is Migrations{
+    function deleteContract() public restricted{
+            //destruction should be called by only owner
+            require (msg.sender == owner);
+            selfdestruct(msg.sender);
+        }
+
+}
+
