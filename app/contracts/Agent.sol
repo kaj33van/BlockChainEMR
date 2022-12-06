@@ -31,6 +31,9 @@ contract Agent {
 
     //creditPool used for checking moving transactions
     uint creditPool;
+    //mutex used to prevent reentry attack
+    bool mutex = false;
+
 
 
     //Address array type for storing multiple patients and doctors
@@ -125,6 +128,9 @@ contract Agent {
         //Transferring 2 ether back on successfull diagnosis
         for(uint i = 0;i<doctorInfo[msg.sender].patientAccessList.length;i++){
             if(doctorInfo[msg.sender].patientAccessList[i]==paddr){
+                //mutex used to prevent reentry attack
+                require(mutex==false);
+                mutex = true; 
                 msg.sender.transfer(2 ether);
                 creditPool -= 2;
                 //Triggering event to record the transfer fees
@@ -193,7 +199,7 @@ contract Agent {
     {
         return doctorInfo[addr].patientAccessList;
     }
-    bool mutex =false;
+    
 
     //Revoke access from the doctor on information on their (Patient) medical details
     function revoke_access(address daddr) public payable{
