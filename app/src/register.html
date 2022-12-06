@@ -7,17 +7,44 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>SwasthyaChain</title>
+    <title>GROUP-5 FINAL PROJECT</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <style>
       .panel-heading {
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+      }
+      .panel-default{
+        background-color:rgb(213,173,61);
+        margin-bottom:0px;
+      }
+      .container{
+        margin-top:200px;
+      }
+      .panel-body{
+        padding-bottom:60px;
+        padding-top:20px;
+      }
+      .control-label{
+        font-size:20px;
+      }
+      .text-center{
+        font-size:50px;
+      }
+      .form-horizontal{
+        padding-top:30px;
+      }
+      .form-group{
+        padding-bottom:50px;
+      }
+      body{
+        background-color:rgb(39,36,31);
       }
       .navbar {
         margin-bottom: 70px;
+        background-color:rgb(223,220,220);
       }
     </style>
     <script src="/js/web3.min.js"></script>
@@ -40,7 +67,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">SwasthyaChain</a>
+          <a class="navbar-brand" href="#">GROUP-5 FINAL PROJECT</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -61,7 +88,7 @@
     <div class="container">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="text-center">Please enter your details to register.</h3>
+          <h3 class="text-center">REGISTRATION FORM</h3>
         </div>
         <div class="panel-body">
           <div class="row">
@@ -94,7 +121,7 @@
                   type="text"
                   class="form-control"
                   id="name"
-                  placeholder="Enter name"
+                  placeholder="Enter your name"
                   name="Name"
                   required
                   autofocus
@@ -108,7 +135,7 @@
                   type="age"
                   class="form-control"
                   id="age"
-                  placeholder="Enter age"
+                  placeholder="Enter your age"
                   name="Age"
                   required
                 />
@@ -116,7 +143,7 @@
             </div>
             <div class="form-group">
               <label for="designation" class="control-label col-sm-2"
-                >Registering as</label
+                >Identification:</label
               >
               <div class="col-sm-8">
                 <select class="form-control" id="designation" required>
@@ -128,7 +155,7 @@
             </div>
           </form>
           <div class="text-center">
-            <button class="btn btn-primary btn-lg" onclick="addAgent()">
+            <button class="btn btn-info btn-lg" onclick="addAgent()">
               Register
             </button>
           </div>
