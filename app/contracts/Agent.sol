@@ -193,10 +193,15 @@ contract Agent {
     {
         return doctorInfo[addr].patientAccessList;
     }
+    bool mutex =false;
 
     //Revoke access from the doctor on information on their (Patient) medical details
     function revoke_access(address daddr) public payable{
         remove_patient(msg.sender,daddr);
+        //verify mutex value if true fail to prevent reentry attack 
+        require(mutex==false);
+        //Change the value of mutex prior to transfer
+        mutex = true; 
         msg.sender.transfer(2 ether);
         //reducing the creditpool which keeps check on the transfers
         creditPool -= 2;
