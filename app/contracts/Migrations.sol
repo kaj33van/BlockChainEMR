@@ -1,9 +1,9 @@
 pragma solidity ^0.5.1;
 
-//Contract to keep checks on what migrations took place on the network
+//Contract to keep checks on Contracts on the network
 /*
 Storing owner in type address
-Keep check on last completed migration in integer
+Keep check on last completed Deployment or migrations of contract in integer
 */
 contract Migrations {
   address public owner;
@@ -19,7 +19,7 @@ contract Migrations {
     owner = msg.sender;
   }
 
-  //number of migrations completed
+  //number of times migrations are done or contracts are executed
   function setCompleted(uint completed) public restricted {
     last_completed_migration = completed;
   }
