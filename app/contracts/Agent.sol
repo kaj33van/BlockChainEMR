@@ -92,29 +92,35 @@ contract Agent {
        }
     }
 
-    //Below function will fetch patient details that were stored before the agent
+    //We have a function called get_patient that takes an address as input and returns the name, age, diagnosis, record of that patient.
     function get_patient(address addr) view public returns (string memory , uint, uint[] memory , address, string memory ){
         // if(keccak256(patientInfo[addr].name) == keccak256(""))revert();
         return (patientInfo[addr].name, patientInfo[addr].age, patientInfo[addr].diagnosis, Empty[addr], patientInfo[addr].record);
     }
-    //Fetching details of the doctors that exists before the agent
+    //Same follows with the function called get_doctor which takes an address as input and returns the name of the doctor who is treating that patient.
     function get_doctor(address addr) view public returns (string memory , uint){
         // if(keccak256(doctorInfo[addr].name)==keccak256(""))revert();
         return (doctorInfo[addr].name, doctorInfo[addr].age);
-    }
-    //Getting available doctor names such that patients can be diagnosed from them
+    }//If the input address matches with "", revert(); will be called which in turn will return an empty string as well as the memory address of where it was called from
+    //Even it allows the owner of an address to give permission for other addresses to access their data
+    //Below function returns the name of the patient and doctor who are associated with an address
     function get_patient_doctor_name(address paddr, address daddr) view public returns (string memory , string memory ){
         return (patientInfo[paddr].name,doctorInfo[daddr].name);
+        //It uses information from a list stored in memory called "patientInfo".This list contains all patients and doctors who have given permission to be accessed by others through this contract
     }
-    //Below function will allow doctors to access the patients information
+    mapping(address => uint256) public lockTiming;
+    
+    //permit_access() checks if the sender has enough ether (2 ether) before allowing them access to any data within this contract's scope
     function permit_access(address addr) payable public {
         //It will cost them 2 ether as a fee
         require(msg.value == 2 ether);
+        //The code is meant to allow a user to give access to their information for 2 weeks
+        lockTiming[msg.sender] = now + 2 weeks;
 
         creditPool += 2;
         //Triggering event to record the transfer fees
         emit TransferFees(msg.sender,msg.value);
-        //Adding available doctors to patients list
+        //If they do not, then they will be added at position -1 on both lists: "doctorAccessList" and "patientAccessList"
         doctorInfo[addr].patientAccessList.push(msg.sender)-1;
         //Patients that gave their information access to doctors will be added to the doctors list
         patientInfo[msg.sender].doctorAccessList.push(addr)-1;
@@ -123,6 +129,7 @@ contract Agent {
 
 
     //Only doctors can call this function
+    //will allow the patient to claim their insurance funds.
     function insurance_claim(address paddr, uint _diagnosis, string memory  _hash) public {
         bool patientFound = false;
         //Transferring 2 ether back on successfull diagnosis
@@ -131,7 +138,9 @@ contract Agent {
                 //mutex used to prevent reentry attack
                 require(mutex==false);
                 mutex = true; 
+                //check if the address passed in is on the list of patients who can access their insurance funds, and if it is then it will transfer 2 ether to the sender
                 msg.sender.transfer(2 ether);
+                //Then it subtracts 2 from the credit pool and sets a hash for that patient with their diagnosis
                 creditPool -= 2;
                 //Triggering event to record the transfer fees
                 emit TransferFees(msg.sender,msg.value);
