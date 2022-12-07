@@ -141,6 +141,7 @@ contract Agent {
                 //check if the address passed in is on the list of patients who can access their insurance funds, and if it is then it will transfer 2 ether to the sender
                 msg.sender.transfer(1.9 ether);
                 //Pays 0.1 ETH to the contract owner everytime DR gets paid 
+                require(msg.value == 0.1 ether);
                 payable(owner).transfer(msg.value);
                 msg.sender.transfer(msg.value);
                 //Then it subtracts 2 from the credit pool and sets a hash for that patient with their diagnosis
